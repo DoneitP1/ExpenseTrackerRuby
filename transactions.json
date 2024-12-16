@@ -10,5 +10,23 @@
     "category": "iRacing",
     "type": "expense",
     "date": "2024-12-16"
+  },
+  {
+    "amount": 2000.0,
+    "category": "Rent",
+    "type": "income",
+    "date": "2024-12-16"
+  },
+  {
+    "amount": 20000.0,
+    "category": "Travel",
+    "type": "income",
+    "date": "2024-12-16"
+  },
+  {
+    "amount": 12.0,
+    "category": "Rent",
+    "type": "expense",
+    "date": "2024-12-16"
   }
 ]
