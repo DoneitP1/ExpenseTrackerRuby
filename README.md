@@ -1,29 +1,21 @@
-#Expense Tracker
-Expense Tracker is a Ruby-based command-line application that helps you manage your personal finances. This project allows users to track their daily income and expenses, organise them by category, and view a financial summary to better manage their budget.
+# Expense Tracker - Ruby
+
+## Overview
+
+Expense Tracker is a simple Ruby-based application that helps users track their daily expenses. It provides basic functionalities such as adding expenses, listing them, and filtering expenses by date. The data is stored locally to ensure persistence.
+
+A **web application** version of this tracker is in development, which will allow users to manage their expenses through an easy-to-use web interface and  its **WORK IN PROGRESS**
+
+## Features
+
+- **Add Expenses**: Users can add an expense by entering the amount, date, and description.
+- **List Expenses**: Users can view a list of all recorded expenses.
+- **Filter Expenses**: Expenses can be filtered by a specific date range.
+- **Data Storage**: Expenses are saved locally to avoid data loss.
+- **Web App (Upcoming)**: A web-based version of the tracker is under development, enabling users to track their expenses through a browser interface.
 
 
 
-#Features
-Add Income and Expenses: Users can input income or expense details with an amount and category.
-View Transaction History: Displays a list of all transactions with date, type, category, and amount.
-Monthly Financial Summary:
-Total income and expenses.
-Calculate net balance.
-Data Persistence: Transactions are saved locally in a JSON file and reloaded when the application starts.
-
-
-
-#Technologies Used
-Ruby: Core programming language for the application.
-JSON: Used for data storage and persistence.
-OOP Design: Simplified with classes to organise functionality.
-
-
-
-#Future Enhancements
-Filter by Date or Category: Add options to filter transactions by specific criteria.
-Budget Tracking: Set monthly budgets and get warnings when nearing the limit.
-Graphical Interface: Migrate the application to a GUI-based environment.
 
 
 
