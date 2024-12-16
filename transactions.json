@@ -1,0 +1,14 @@
+[
+  {
+    "amount": 400.0,
+    "category": "Work",
+    "type": "income",
+    "date": "2024-12-16"
+  },
+  {
+    "amount": 15.0,
+    "category": "iRacing",
+    "type": "expense",
+    "date": "2024-12-16"
+  }
+]
