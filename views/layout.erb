@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Expense Tracker</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 <header>
   <h1>Expense Tracker</h1>
+  <nav>
+    <a href="/login">Login</a> |
+    <a href="/register">Register</a> |
+    <a href="/transactions">Transactions</a>
+  </nav>
 </header>
 <main>
   <%= yield %>
 </main>
+<footer>
+  <p>&copy; 2024 Expense Tracker</p>
+</footer>
 </body>
 </html>

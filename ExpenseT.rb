@@ -64,6 +64,7 @@ class ExpenseTracker
     save_transactions
     puts "Transaction added successfully!"
   end
+
   def view_summary
     income = @transactions.select { |t| t.type == 'income' }.sum(&:amount)
     expenses = @transactions.select { |t| t.type == 'expense' }.sum(&:amount)
@@ -72,6 +73,7 @@ class ExpenseTracker
     puts "Total Expenses: #{expenses} USD"
     puts "Net Balance: #{income - expenses} USD"
   end
+
   def list_transactions
     if @transactions.empty?
       puts "No transactions found."
@@ -80,16 +82,20 @@ class ExpenseTracker
       @transactions.each_with_index { |t, idx| puts "#{idx + 1}. #{t}" }
     end
   end
+
   private
+
   def load_transactions
     user_file = "#{current_user.username}_transactions.json"
     return [] unless File.exist?(user_file)
     JSON.parse(File.read(user_file)).map { |hash| Transaction.from_h(hash) }
   end
+
   def save_transactions
     user_file = "#{current_user.username}_transactions.json"
     File.write(user_file, JSON.pretty_generate(@transactions.map(&:to_h)))
   end
+
   def valid_transaction?(amount, category, currency)
     if amount <= 0
       puts "Amount must be positive."
@@ -104,13 +110,18 @@ class ExpenseTracker
     true
   end
 end
+
+# CLI class for user interaction
 class ExpenseTrackerCLI
   def initialize
     @users = User.load_users
     @current_user = nil
+    @tracker = nil
     login_or_register
   end
+
   def start
+    return unless @current_user
     loop do
       display_menu
       choice = gets.chomp.to_i
@@ -118,7 +129,9 @@ class ExpenseTrackerCLI
       break if choice == 6
     end
   end
+
   private
+
   def display_menu
     puts "\n--- Expense Tracker Menu ---"
     puts "1. Add Income"
@@ -129,6 +142,7 @@ class ExpenseTrackerCLI
     puts "6. Exit"
     print "Choose an option: "
   end
+
   def handle_choice(choice)
     case choice
     when 1 then add_transaction('income')
@@ -140,6 +154,7 @@ class ExpenseTrackerCLI
     else puts "Invalid option, try again."
     end
   end
+
   def add_transaction(type)
     print "Enter amount (USD): "
     amount = gets.chomp.to_f
@@ -147,18 +162,21 @@ class ExpenseTrackerCLI
     currency = get_currency
     @tracker.add_transaction(amount, category, type, currency)
   end
+
   def get_category
     puts "Select a category:"
     Transaction::CATEGORY_LIST.each_with_index { |cat, idx| puts "#{idx + 1}. #{cat}" }
     print "Enter custom category if needed: "
     gets.chomp
   end
+
   def get_currency
     puts "Select a currency:"
     Transaction::CURRENCY_LIST.each_with_index { |currency, idx| puts "#{idx + 1}. #{currency}" }
     choice = gets.chomp.to_i
-    Transaction::CURRENCY_LIST[choice - 1]
+    Transaction::CURRENCY_LIST[choice - 1] || 'USD'
   end
+
   def login_or_register
     loop do
       puts "--- Welcome to Expense Tracker ---"
@@ -167,37 +185,44 @@ class ExpenseTrackerCLI
       case choice
       when 1 then login
       when 2 then register
-      when 3 then break
+      when 3 then exit
       else puts "Invalid choice, try again."
       end
       break if @current_user
     end
   end
+
   def login
     print "Username: "
     username = gets.chomp
     print "Password: "
     password = gets.chomp
-    @current_user = @users.find { |user| user.username == username && user.authenticate(password) }
-    if @current_user
-      puts "Login successful!"
+    user = @users.find { |user| user.username == username }
+
+    if user && user.authenticate(password)
+      @current_user = user
       @tracker = ExpenseTracker.new(@current_user)
+      puts "Login successful!"
     else
       puts "Invalid credentials, try again."
     end
   end
+
   def register
     print "Enter a new username: "
     username = gets.chomp
     print "Enter a new password: "
     password = gets.chomp
+
     if @users.any? { |user| user.username == username }
       puts "Username already exists. Please choose another one."
     else
       user = User.new(username, password)
       @users << user
       User.save_users(@users)
-      puts "Registration successful, now you can login."
+      @current_user = user
+      @tracker = ExpenseTracker.new(@current_user)
+      puts "Registration successful!"
     end
   end
   def log_out
